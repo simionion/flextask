@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html class="example" lang="en">
+<head>
+	<title>Flexiana Task</title>
+	<link href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" rel="stylesheet">
+	<link href="/assets/normalize.css/normalize.css" rel="stylesheet">
+	<script>
+
+		checkScrambled = () => {
+			let btn = document.querySelector("button");
+			let status = document.querySelector("#status");
+			let str1 = (document.querySelector("#str1").value = document.querySelector("#str1").value.replace(/[^a-z]+/g,""));
+			let str2 = (document.querySelector("#str2").value = document.querySelector("#str2").value.replace(/[^a-z]+/g,""));
+
+			btn.disabled = true;
+			status.innerText = "Inquiring...";
+
+			fetch("/scramble/" + str1 + "/" + str2)
+					.then((response) => response.text())
+					.then(
+							(responseBool) => {
+								let itIs = responseBool === "true";
+								status.innerText = "The returned value is: " + responseBool.toUpperCase();
+
+								btn.classList.remove("is-primary");
+								btn.classList.add(itIs ? "is-success" : "is-danger");
+								setTimeout(() => {
+									btn.classList.remove(itIs ? "is-success" : "is-danger");
+									btn.classList.add("is-primary");
+									btn.disabled = false;
+									status.innerText = '';
+								}, 5000)
+							}
+					);
+		}
+	</script>
+</head>
+<body>
+<section class="section">
+	<div class="container">
+		<h1 class="subtitle">
+			Function (scramble str1 str2) that returns true if a portion of str1 characters can be rearranged to match str2, otherwise returns false
+		</h1>
+
+		<div class="field is-horizontal">
+			<div class="field-label is-normal">
+				<label class="label">String long</label>
+			</div>
+			<div class="field-body">
+				<div class="field">
+					<div class="control">
+						<input class="input" id="str1" pattern="[a-z]{1,}" placeholder="str1" type="text"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="field is-horizontal">
+			<div class="field-label is-normal">
+				<label class="label">String short</label>
+			</div>
+			<div class="field-body">
+				<div class="field">
+					<div class="control">
+						<input class="input" id="str2" pattern="[a-z]{1,}" placeholder="str2" type="text"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<button class="button is-primary is-fullwidth" onclick="checkScrambled()" type="button">Scrambled?&nbsp; <span id="status"></span></button>
+
+	</div>
+</section>
+</body>
+</html>
