@@ -9,29 +9,42 @@
 		checkScrambled = () => {
 			let btn = document.querySelector("button");
 			let status = document.querySelector("#status");
-			let str1 = (document.querySelector("#str1").value = document.querySelector("#str1").value.replace(/[^a-z]+/g,""));
-			let str2 = (document.querySelector("#str2").value = document.querySelector("#str2").value.replace(/[^a-z]+/g,""));
+			let str1 = document.querySelector("#str1");
+			let str2 = document.querySelector("#str2");
+
+			//Cleanup non a-z chars.
+			[str1, str2].map((str) => (str.value = str.value.replace(/[^a-z]+/g, "")))
+
+			//Both inputs must have at least 1 char.
+			if ([str1, str2].some((str) => str.value === "")) {
+				return false;
+			}
+
 
 			btn.disabled = true;
 			status.innerText = "Inquiring...";
 
-			fetch("/scramble/" + str1 + "/" + str2)
+			fetch("/scramble/" + str1.value + "/" + str2.value)
 					.then((response) => response.text())
 					.then(
 							(responseBool) => {
 								let itIs = responseBool === "true";
 								status.innerText = "The returned value is: " + responseBool.toUpperCase();
-
 								btn.classList.remove("is-primary");
 								btn.classList.add(itIs ? "is-success" : "is-danger");
-								setTimeout(() => {
-									btn.classList.remove(itIs ? "is-success" : "is-danger");
-									btn.classList.add("is-primary");
-									btn.disabled = false;
-									status.innerText = '';
-								}, 5000)
 							}
-					);
+					)
+					.catch(() => {
+						status.innerText = 'API connection failed - App is running ?';
+					}).finally(() => {
+				setTimeout(() => {
+					btn.classList.remove("is-success");
+					btn.classList.remove("is-danger");
+					btn.classList.add("is-primary");
+					btn.disabled = false;
+					status.innerText = '';
+				}, 3000)
+			});
 		}
 	</script>
 </head>
@@ -68,7 +81,7 @@
 			</div>
 		</div>
 
-		<button class="button is-primary is-fullwidth" onclick="checkScrambled()" type="button">Scrambled?&nbsp; <span id="status"></span></button>
+		<button class="button is-primary is-outlined is-fullwidth" onclick="checkScrambled()" type="button">Scrambled?&nbsp; <span id="status"></span></button>
 
 	</div>
 </section>
