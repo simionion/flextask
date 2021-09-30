@@ -1,15 +1,19 @@
 {:duct.profile/base
- {:duct.core/project-ns flextask
+                       {:duct.core/project-ns                        flextask
 
-  :duct.router/ataraxy
-  {:routes {[:get "/"] [:flextask.handler/example]}}
+                        :duct.router/ataraxy
+                                                                     {:routes {
+                                                                               [:get "/"] [:flextask.handler/index]
+                                                                               "/scramble"
+                                                                               {[:get "/" str1 "/" str2] [:flextask.handler.api/scramble str1 str2]
+                                                                                           }}}
+                        :flextask.handler/index                      {}
+                        :flextask.handler.api/scramble  {}
+                        }
 
-  :flextask.handler/example {}}
+ :duct.profile/dev     #duct/include "dev"
+ :duct.profile/local   #duct/include "local"
+ :duct.profile/prod    {}
 
- :duct.profile/dev   #duct/include "dev"
- :duct.profile/local #duct/include "local"
- :duct.profile/prod  {}
-
- :duct.module/logging {}
- :duct.module.web/site
- {}}
+ :duct.module/logging  {}
+ :duct.module.web/site {}}
