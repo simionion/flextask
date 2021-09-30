@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="example" lang="en">
+<head>
+	<title>Flexiana Task</title>
+	<link href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" rel="stylesheet">
+	<link href="/assets/normalize.css/normalize.css" rel="stylesheet">
+</head>
+<body>
+<section class="section">
+	<div class="container">
+		<h1 class="subtitle">
+			Function (scramble str1 str2) that returns true if a portion of str1 characters can be rearranged to match str2, otherwise returns false
+		</h1>
+
+		<div class="field is-horizontal">
+			<div class="field-label is-normal">
+				<label class="label">String long</label>
+			</div>
+			<div class="field-body">
+				<div class="field">
+					<div class="control">
+						<input type="text" class="input" placeholder="str1" pattern="[a-z]{1,}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="field is-horizontal">
+			<div class="field-label is-normal">
+				<label class="label">String short</label>
+			</div>
+			<div class="field-body">
+				<div class="field">
+					<div class="control">
+						<input type="text" class="input" placeholder="str2" pattern="[a-z]{1,}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<button type="button" class="button is-primary is-fullwidth">Scramble?</button>
+
+	</div>
+</section>
+</body>
+</html>
