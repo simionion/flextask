@@ -1,4 +1,10 @@
+orbs:
+  heroku: circleci/heroku@1.2.6
 version: 2
+workflows:
+  heroku_deploy:
+    jobs:
+      - heroku/deploy-via-git  
 jobs:
   build:
     working_directory: ~/flextask # directory where steps will run
